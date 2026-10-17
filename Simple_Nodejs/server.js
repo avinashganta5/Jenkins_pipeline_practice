@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
                     margin-top: 100px;
                     background: #f0f4f8;
                 }
-                h1 { color: #16803c; }
+                h1 { color: #162280; }
                 .card {
                     background: white;
                     padding: 30px;
