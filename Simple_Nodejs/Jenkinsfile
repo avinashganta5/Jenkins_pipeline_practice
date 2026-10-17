@@ -8,8 +8,8 @@ pipeline {
         ECR_REG_NAME     = 'simple_apps'
         ECR_URI          = "${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
 
-        AWS_ACCESS_KEY_ID     = credentials('ACCESS_KEY')
-        AWS_SECRET_ACCESS_KEY = credentials('SECRET_ACCESS_KEY')
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
 
         BRANCH          = 'main'
         GITHUB_URL      = 'https://github.com/avinashganta5/Jenkins_pipeline_practice.git'

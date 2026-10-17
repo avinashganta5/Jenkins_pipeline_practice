@@ -35,7 +35,6 @@ const server = http.createServer((req, res) => {
                 <h1>Hello from Node.js!</h1>
                 <p>My first Node.js application.</p>
                 <p>Deployed using Jenkins and Docker.</p>
-                <p>Path: ${req.url}</p>
             </div>
         </body>
         </html>
