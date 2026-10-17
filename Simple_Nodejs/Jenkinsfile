@@ -1,0 +1,83 @@
+
+pipeline {
+    agent any
+
+    environment {
+        BRANCH = 'main'
+        GITHUB_URL = 'https://github.com/avinashganta5/Jenkins_pipeline_practice.git'
+        IMAGE_NAME = 'nodejs-practice'
+        CONTAINER_NAME = 'nodejs-app'
+        HOST_PORT = '3000'
+        APP_PORT = '3000'
+    }
+
+    stages {
+        stage('Clean Ws') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Code Checkout') {
+            steps {
+                git branch: "${BRANCH}",
+                    url: "${GITHUB_URL}"
+            }
+        }
+
+        stage('Dependencies') {
+            steps {
+                dir('Simple_Nodejs') {
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('Simple_Nodejs') {
+                    sh 'npm test --if-present'
+                }
+            }
+        }
+
+        stage('Image Build') {
+            steps {
+                dir('Simple_Nodejs') {
+                    sh 'docker build -t ${IMAGE_NAME}:${BUILD_ID} .'
+                }
+            }
+        }
+
+        stage('Removing old Containers') {
+            steps {
+                sh '''
+                    docker rm -f ${CONTAINER_NAME} 2>/dev/null || true
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    docker run -d \
+                        --name ${CONTAINER_NAME} \
+                        --restart unless-stopped \
+                        -p ${HOST_PORT}:${APP_PORT} \
+                        ${IMAGE_NAME}:${BUILD_ID}
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+            echo "Application URL: http://localhost:${HOST_PORT}"
+        }
+
+        failure {
+            echo 'Pipeline failed. Check the console output.'
+        }
+    }
+}
