@@ -7,7 +7,7 @@ pipeline {
         GITHUB_URL = 'https://github.com/avinashganta5/Jenkins_pipeline_practice.git'
         IMAGE_NAME = 'simple'
         CONTAINER_NAME = 'simple-app'
-        HOST_PORT = '8080'
+        HOST_PORT = '1000'
     }
 
     stages {
